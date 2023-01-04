@@ -1,0 +1,12 @@
+#playerGrid, #aiGrid {
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    grid-template-rows: repeat(10, 1fr);
+    border: 1px solid black;
+}
+
+#playerGrid .cell, #aiGrid .cell {
+    border: 1px solid black;
+    width: 30px;
+    height: 30px;
+}
