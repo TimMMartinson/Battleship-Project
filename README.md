@@ -4,7 +4,7 @@
 - The object of the game is to sink all of your opponent's ships.
 
 > This project is my first project for the General Assembly SEI Bootcamp.  I chose to create Battleship because of the challenge of implementing an AI opponent.
-> The logic required to place the AI's ships and handle both its and the player's attack functions was intriguing to me
+> The logic required to place the AI's ships and handle both its and the player's attack functions was intriguing to me.
 >
 > Also, as a chess player, I have an interest in strategy game AI (i.e. chess engines) and saw this project as an opportunity to learn more about the ideas and processes behind creating such an
 > AI, albeit with a simpler game.
