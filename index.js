@@ -36,30 +36,44 @@ let aiHits = 0
 function handlePlayerShipPlacement(evt) {
     const cell = evt.target
     if (cell.classList.contains("ship")) {
-        cell.classList.remove("ship") //this removes a ship if there is already one placed
-        playerShips[playerShips.indexOf(cell.dataset.length)]++
+      cell.classList.remove("ship") // this removes a ship if there is already one placed
+      playerShips[playerShips.indexOf(cell.dataset.length)]++
     } else if (playerShips.length > 0) {
-        const shipLength = playerShips.pop()
-        cell.classList.add("ship")
-        cell.dataset.length = shipLength
-        
-        let orientation = "horizontal" //default orientation for ship placement
-
-        for (let i = 1; i < shipLength; i++) {
-            const nextCell = getNextCell(cell, i, orientation)
-            if (!nextCell || nextCell.classList.contains("ship")) {
-                //this checks for valid ship placement
-                playerShips.push(shipLength)
-                cell.classList.remove("ship")
-                delete cell.dataset.length
-                return
-            }
+      const shipLength = playerShips.pop()
+      cell.classList.add("ship")
+      cell.dataset.length = shipLength
+  
+      let orientation = "horizontal" // default orientation for ship placement
+  
+      // Check for valid ship placement
+      let isValidPlacement = true
+      for (let i = 0; i < shipLength; i++) {
+        const nextCell = getNextCell(cell, i, orientation)
+        if (!nextCell || nextCell.classList.contains("ship")) {
+          isValidPlacement = false
+          break
         }
+      }
+  
+      if (isValidPlacement) {
+        // Place the ship
+        cell.classList.add("ship")
+        for (let i = 1; i < shipLength; i++) {
+          const nextCell = getNextCell(cell, i, orientation)
+          nextCell.classList.add("ship")
+        }
+      } else {
+        // Cannot place the ship, try again with next ship
+        playerShips.push(shipLength)
+        cell.classList.remove("ship")
+        delete cell.dataset.length
+      }
     }
     if (playerShips.length === 0) {
-        return
+      return
     }
-}
+  }
+  
 
 function handleAIShipPlacement(ships) {
     if(!aiGrid){
@@ -131,6 +145,7 @@ function handleAIShipPlacement(ships) {
       }
     }
   }
+  
 
   
 
