@@ -68,7 +68,7 @@ function handleAIShipPlacement() {
       // Pick a random orientation for the ship (horizontal or vertical)
       const orientation = Math.random() < 0.5 ? "horizontal" : "vertical"
   
-      let isValidPlacement = true;
+      let isValidPlacement = true
       for (let i = 0; i < shipLength; i++) {
         const nextCell = getNextCell(startCell, i, orientation)
         if (!nextCell || nextCell.classList.contains("ship")) {
@@ -91,9 +91,31 @@ function handleAIShipPlacement() {
       }
     }
   }
+
   
+  function getNextCell(startCell, i, orientation) {
+    if (!startCell) return null
+    if (orientation === "horizontal") {
+      // Find the next cell in the same row
+      return startCell.nextSibling
+    } else if (orientation === "vertical") {
+      // Find the next cell in the same column
+      if (startCell.parentElement && startCell.parentElement.nextSibling) {
+        return startCell.parentElement.nextSibling.children[startCell.cellIndex]
+      } else {
+        return null
+      }
+    }
+  }
+
+  
+
   function handlePlayerAttack(evt) {
     const cell = evt.target
+    // make sure function can only target cells in player's grid
+    if (!cell.classList.contains("cell")){
+        return
+    }
     //check if cell has already been targeted
     if(cell.classList.contains("hit") || cell.classList.contains("miss")) {
         return
@@ -134,3 +156,4 @@ function handleAIShipPlacement() {
         cell.classList.add("miss")
     }
   }
+
