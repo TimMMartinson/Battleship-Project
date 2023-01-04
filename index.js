@@ -56,3 +56,24 @@ function handlePlayerShipPlacement(evt) {
         }
     }
 }
+
+function handlePlayerAttack(evt) {
+    const cell = evt.target
+    //check if cell has already been targeted
+    if(cell.classList.contains("hit") || cell.classList.contains("miss")) {
+        return
+    }
+
+    //check if cell contains a ship
+    if(cell.classList.contains("ship")) {
+        cell.classList.add("hit")
+        playerHits++
+
+        //check for win
+        if (playerHits === aiShips.reduce((a,b) => a + b, 0)) {
+            alert("Congratulations, the player wins!")
+        }
+    } else {
+        cell.classList.add("miss")
+    }
+}
