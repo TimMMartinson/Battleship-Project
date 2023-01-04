@@ -11,7 +11,7 @@ for (let i = 0; i < 10; i++) {
         cell.classList.add("cell")
         playerGrid.appendChild(cell)
 
-        const aiCell = docmuent.createElement("div")
+        const aiCell = document.createElement("div")
         aiCell.classList.add("cell")
         aiGrid.appendChild(aiCell)
     }
