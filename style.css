@@ -10,3 +10,15 @@
     width: 30px;
     height: 30px;
 }
+
+#playerGrid .ship, #aiGrid .ship {
+    background-color: blue;
+}
+
+#playerGrid .miss, #aiGrid .miss {
+    background-color: black;
+}
+
+#playerGrid .hit, #aiGrid .hit {
+    background-color: red;
+}

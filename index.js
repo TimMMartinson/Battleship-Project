@@ -24,6 +24,7 @@ startButton.addEventListener("click", () => {
     playerGrid.querySelectorAll(".cell").forEach(cell => {
         cell.addEventListener("click", handlePlayerShipPlacement)
     })
+    handleAIShipPlacement()
     startButton.disabled = true
 })
 
@@ -57,7 +58,41 @@ function handlePlayerShipPlacement(evt) {
     }
 }
 
-function handlePlayerAttack(evt) {
+function handleAIShipPlacement() {
+    for (const shipLength of aiShips) {
+      // Pick a random cell to start the ship
+      const startRow = Math.floor(Math.random() * 10)
+      const startCol = Math.floor(Math.random() * 10)
+      const startCell = aiGrid.children[startRow].children[startCol]
+  
+      // Pick a random orientation for the ship (horizontal or vertical)
+      const orientation = Math.random() < 0.5 ? "horizontal" : "vertical"
+  
+      let isValidPlacement = true;
+      for (let i = 0; i < shipLength; i++) {
+        const nextCell = getNextCell(startCell, i, orientation)
+        if (!nextCell || nextCell.classList.contains("ship")) {
+          isValidPlacement = false
+          break
+        }
+      }
+  
+      if (isValidPlacement) {
+        // Place the ship
+        startCell.classList.add("ship")
+        startCell.dataset.length = shipLength
+        for (let i = 1; i < shipLength; i++) {
+          const nextCell = getNextCell(startCell, i, orientation)
+          nextCell.classList.add("ship")
+        }
+      } else {
+        // Cannot place the ship, try again
+        aiShips.push(shipLength)
+      }
+    }
+  }
+  
+  function handlePlayerAttack(evt) {
     const cell = evt.target
     //check if cell has already been targeted
     if(cell.classList.contains("hit") || cell.classList.contains("miss")) {
@@ -70,10 +105,32 @@ function handlePlayerAttack(evt) {
         playerHits++
 
         //check for win
-        if (playerHits === aiShips.reduce((a,b) => a + b, 0)) {
+        if (playerHits === 17) {
             alert("Congratulations, the player wins!")
+            startButton.disabled = false
         }
     } else {
         cell.classList.add("miss")
     }
+    // invoke ai attack 1 second after player attack completes
+    setTimeout(() => handleAIAttack(), 1000)
 }
+
+  function handleAIAttack () {
+    do{
+        const row = Math.floor(Math.random() * 10)
+        const col = Math.floor(Math.random() * 10)
+        cell = playerGrid.rows[row].cells[col]
+    } while (cell.classList.contains("hit") || cell.classList.contains("miss"))
+
+    if (cell.classList.contains("ship")) {
+        cell.classList.add("hit")
+        aiHits++
+        if (aiHits === 17) {
+            alert("Sorry, AI Wins!")
+            startButton.disabled = false
+        }
+    } else {
+        cell.classList.add("miss")
+    }
+  }
