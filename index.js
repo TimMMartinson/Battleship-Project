@@ -7,7 +7,7 @@ const startButton = document.getElementById("startButton")
 
 for (let i = 0; i < 10; i++) {
     const playerRow = document.createElement("tr")
-    playerRow.setAttribute('id', `row${i}`)
+    playerRow.setAttribute('id', `playerRow${i}`)
     playerGrid.appendChild(playerRow)
   
     const aiRow = document.createElement("tr")
@@ -17,7 +17,8 @@ for (let i = 0; i < 10; i++) {
     for (let j = 0; j < 10; j++) {
       const playerCell = document.createElement("td")
       playerCell.classList.add("cell")
-      playerCell.setAttribute("id", `col${j}`)
+      playerCell.setAttribute("id", `playerCol${j}`)
+      playerCell.addEventListener("click", () => placeShip(i,j))
       playerRow.appendChild(playerCell)
   
       const aiCell = document.createElement("td")
@@ -31,58 +32,48 @@ for (let i = 0; i < 10; i++) {
 // Placing AI ships and initializing Player Ship placement
 
 startButton.addEventListener("click", () => {
-    playerGrid.querySelectorAll(".cell").forEach(cell => {
-        cell.addEventListener("click", handlePlayerShipPlacement)
-    })
     handleAIShipPlacement(aiShips)
     startButton.disabled = true
 })
 
-let playerShips = [5, 4, 3, 3, 2]
-let aiShips = [5, 4, 3, 3, 2]
+const playerShips = [5, 4, 3, 3, 2]
+const aiShips = [5, 4, 3, 3, 2]
 let playerHits = 0
 let aiHits = 0
 
-function handlePlayerShipPlacement(evt) {
-    const cell = evt.target
-    if (cell.classList.contains("ship")) {
-      cell.classList.remove("ship") // this removes a ship if there is already one placed
-      playerShips[playerShips.indexOf(cell.dataset.length)]++
-    } else if (playerShips.length > 0) {
-      const shipLength = playerShips.pop()
-      cell.classList.add("ship")
-      cell.dataset.length = shipLength
-  
-      let orientation = "horizontal" // default orientation for ship placement
-  
-      // Check for valid ship placement
-      let isValidPlacement = true
-      for (let i = 0; i < shipLength; i++) {
-        const nextCell = getNextCell(cell, i, orientation)
-        if (!nextCell || nextCell.classList.contains("ship")) {
-          isValidPlacement = false
-          break
+let currentShip = 0
+function placeShip(row, col) {
+    const shipLength = playerShips[currentShip]
+
+    // place horizontally or vertically depending on user choice
+    const isHorizontal = document.getElementById("horizontalRadio").checked
+    if (isHorizontal) {
+        // check for space to place ship horizontally
+        if (col + shipLength > 10) {
+            alert("Not enough space to place ship horizontally!")
+            return
         }
-      }
-  
-      if (isValidPlacement) {
         // Place the ship
-        cell.classList.add("ship")
-        for (let i = 1; i < shipLength; i++) {
-          const nextCell = getNextCell(cell, i, orientation)
-          nextCell.classList.add("ship")
-        } sortedShipLengths.splice(sortedShipLengths.indexOf(shipLength), 1)
-      } else {
-        // Cannot place the ship, try again with next ship
-        playerShips.push(shipLength)
-        cell.classList.remove("ship")
-        delete cell.dataset.length
-      }
+        for (let i = col; i < col + shipLength; i++) {
+            document.getElementById(`playerRow${row}`).children[i].classList.add("ship")
+        }
+    } else {
+        // check for space to place ship vertically
+        if (row + shipLength > 10) {
+            alert("Not enough space to place ship vertically!")
+            return
+        }
+        // Place the ship
+        for (let i = row; i < row + shipLength; i++) {
+            document.getElementById(`playerRow${i}`).children[col].classList.add("ship")
+        }
     }
-    if (playerShips.length === 0) {
-      return
+    currentShip++
+    // Once all ships are placed, disable the ship placement function
+    if (currentShip === playerShips.length) {
+        playerGrid.removeEventListener("click", placeShip)
     }
-  }
+}
 
 
   function handleAIShipPlacement() {
@@ -153,6 +144,24 @@ function handlePlayerShipPlacement(evt) {
     }
 }
 
+function getNextPlayerCell(cell, i, orientation) {
+    // Check if the ship goes off the grid
+    if (orientation === "horizontal") {
+        if (cell.cellIndex + i >= 10) {
+            return null
+        }
+        // Return the next horizontal cell
+        return document.querySelector(`#${cell.parentNode.id} #playerCol${cell.cellIndex + i}`)
+    } else {
+        if (cell.parentNode.rowIndex + i >= 10) {
+            return null
+        }
+        // Return the next vertical cell
+        return document.querySelector(`#playerRow${cell.parentNode.rowIndex + i} #playerCol${cell.cellIndex}`)
+    }
+}
+
+  
 
   function handlePlayerAttack(evt) {
     const cell = evt.target
