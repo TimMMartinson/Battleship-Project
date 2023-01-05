@@ -1,11 +1,22 @@
+* {
+    background-color: slategray;
+}
+
+h1 {
+    color: rgb(201, 204, 207);
+}
+
 #playerGrid, #aiGrid {
     border: 1px solid black;
+    padding: 5px;
+    align-content: center;
 }
 
 #playerGrid .cell, #aiGrid .cell {
     border: 1px solid black;
     width: 30px;
     height: 30px;
+    cursor: pointer;
 }
 
 #playerGrid .ship, #aiGrid .ship {
@@ -18,4 +29,19 @@
 
 #playerGrid .hit, #aiGrid .hit {
     background-color: red;
+}
+
+.label {
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    padding: 0;
+    font-family: monospace;
+}
+
+.colLabel {
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    font-family: monospace;
 }

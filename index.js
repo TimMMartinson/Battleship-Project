@@ -201,6 +201,7 @@ function getNextPlayerCell(cell, i, orientation) {
 
     // check if cell has already been targeted
     if (targetCell.classList.contains("hit") || targetCell.classList.contains("miss")) {
+        setTimeout(() => handleAIAttack(), 500)
         return
     }
 
