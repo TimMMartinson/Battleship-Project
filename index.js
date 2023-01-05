@@ -20,7 +20,7 @@ for (let i = 0; i < 10; i++) {
       playerCell.setAttribute("id", `col${j}`)
       playerRow.appendChild(playerCell)
   
-      const aiCell = document.createElement("td");
+      const aiCell = document.createElement("td")
       aiCell.classList.add("cell")
       aiCell.setAttribute('id', `col${j}`)
       aiCell.addEventListener("click", handlePlayerAttack)
@@ -71,7 +71,7 @@ function handlePlayerShipPlacement(evt) {
         for (let i = 1; i < shipLength; i++) {
           const nextCell = getNextCell(cell, i, orientation)
           nextCell.classList.add("ship")
-        }
+        } sortedShipLengths.splice(sortedShipLengths.indexOf(shipLength), 1)
       } else {
         // Cannot place the ship, try again with next ship
         playerShips.push(shipLength)
@@ -85,24 +85,21 @@ function handlePlayerShipPlacement(evt) {
   }
 
 
-function handleAIShipPlacement() {
-    if(!aiGrid){
-        return
+  function handleAIShipPlacement() {
+    if (!aiGrid) {
+      return
     }
-
+  
     // sort ship lengths in descending order
-    const sortedShipLengths = aiShips.sort((a, b) => b - a)
+    const sortedShipLengths = [...aiShips].sort((a, b) => b - a)
   
     // place ships on AI grid
-    for (const shipLength of sortedShipLengths) {
-      let placed = false
-      let attempts = 0
-      // This prevents the while loop from going infinite
-      while (!placed && attempts < 1000) {
+    for (const shipLength of aiShips) {
+      for (let attempts = 0; attempts < 1000; attempts++) {
         // Pick a random cell to start the ship
         const startRow = Math.floor(Math.random() * 10)
         const startCol = Math.floor(Math.random() * 10)
-        const startCell = aiGrid.children[startRow].children[startCol]
+        const startCell = aiGrid.querySelector(`#row${startRow} #col${startCol}`)
   
         // Pick a random orientation for the ship (horizontal or vertical)
         const orientation = Math.random() < 0.5 ? "horizontal" : "vertical"
@@ -124,22 +121,19 @@ function handleAIShipPlacement() {
             const nextCell = getNextCell(startCell, i, orientation)
             nextCell.classList.add("ship")
           }
-          placed = true
+  
           console.log("ship placed")
+          break // break out of the for loop if the ship is placed
         } else {
           // Cannot place the ship, try again with next ship
-          placed = false
-          aiShips.push(shipLength)
+  
+          sortedShipLengths.push(shipLength)
           console.log("ship placement failed")
-        }
-        // Break out of the loop if we've reached 1000 attempts
-        attempts++
-        if (attempts === 1000) {
-          break
         }
       }
     }
   }
+  
   
   function getNextCell(cell, i, orientation) {
     if (orientation === "horizontal") {
@@ -155,7 +149,7 @@ function handleAIShipPlacement() {
             return null
         }
         // Return the next vertical cell
-        return document.querySelector(`#${cell.parentNode.id} #col${cell.cellIndex}`)
+        return document.querySelector(`#row${cell.parentNode.rowIndex + i} #col${cell.cellIndex}`)
     }
 }
 
