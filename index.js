@@ -79,7 +79,7 @@ function handlePlayerShipPlacement(evt) {
       return
     }
   }
-  
+
 
 function handleAIShipPlacement() {
     if(!aiGrid){
@@ -106,7 +106,7 @@ function handleAIShipPlacement() {
         let isValidPlacement = true
         for (let i = 0; i < shipLength; i++) {
           const nextCell = getNextCell(startCell, i, orientation)
-          if (!nextCell || nextCell.classList.contains("ship")) {
+          if (!nextCell || nextCell.classList.contains("ship") || nextCell === null) {
             isValidPlacement = false
             break
           }
@@ -128,7 +128,6 @@ function handleAIShipPlacement() {
           aiShips.push(shipLength)
           console.log("ship placement failed")
         }
-  
         // Break out of the loop if we've reached 1000 attempts
         attempts++
         if (attempts === 1000) {
@@ -138,23 +137,27 @@ function handleAIShipPlacement() {
     }
   }
   
-  function getNextCell(startCell, i, orientation) {
+  function getNextCell(cell, i, orientation) {
+    const row = cell.parentElement.rowIndex
+    const col = cell.cellIndex
+  
     if (orientation === "horizontal") {
-        // Find the next cell in the same row
-        const nextCell = startCell.nextElementSibling
-        if (nextCell && nextCell.tagName === "TD") {
-            return nextCell
-        }
+      // Check if the ship goes off the grid
+      if (col + i >= 10) {
+        return null
+      }
+      // Return the next horizontal cell
+      return cell.parentElement.children[col + i]
     } else {
-        // Find the next cell in the same column
-        const parentRow = startCell.parentElement
-        const nextRow = parentRow.nextElementSibling
-        if (nextRow) {
-            return nextRow.children[i]
-        }
+      // Check if the ship goes off the grid
+      if (row + i >= 10) {
+        return null
+      }
+      // Return the next vertical cell
+      return cell.parentElement.parentElement.children[row + i].children[col]
     }
-    return null
-}
+  }
+  
 
   function handlePlayerAttack(evt) {
     const cell = evt.target
