@@ -192,21 +192,29 @@ function getNextPlayerCell(cell, i, orientation) {
 }
 
   function handleAIAttack () {
-    do{
-        const row = Math.floor(Math.random() * 10)
-        const col = Math.floor(Math.random() * 10)
-        cell = playerGrid.rows[row].cells[col]
-    } while (cell.classList.contains("hit") || cell.classList.contains("miss"))
+   // Generate random coordinates for the target cell
+   const row = Math.floor(Math.random() * 10)
+   const col = Math.floor(Math.random() * 10)
 
-    if (cell.classList.contains("ship")) {
-        cell.classList.add("hit")
+   // select the target cell from the players grid
+   const targetCell = document.querySelector(`#playerRow${row} #playerCol${col}`)
+
+    // check if cell has already been targeted
+    if (targetCell.classList.contains("hit") || targetCell.classList.contains("miss")) {
+        return
+    }
+
+    // check if cell contains a ship
+    if (targetCell.classList.contains("ship")) {
+        targetCell.classList.add("hit")
         aiHits++
+
+        //check for win
         if (aiHits === 17) {
-            alert("Sorry, AI Wins!")
+            alert("Sorry, the AI wins!")
             startButton.disabled = false
         }
     } else {
-        cell.classList.add("miss")
+        targetCell.classList.add("miss")
     }
   }
-
