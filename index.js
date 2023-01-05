@@ -6,17 +6,23 @@ const startButton = document.getElementById("startButton")
 // creating grids
 
 for (let i = 0; i < 10; i++) {
+    const playerRow = document.createElement("tr");
+    playerGrid.appendChild(playerRow);
+  
+    const aiRow = document.createElement("tr");
+    aiGrid.appendChild(aiRow);
+  
     for (let j = 0; j < 10; j++) {
-        const cell = document.createElement("div")
-        cell.classList.add("cell")
-        playerGrid.appendChild(cell)
-
-        const aiCell = document.createElement("div")
-        aiCell.classList.add("cell")
-        aiCell.addEventListener("click", handlePlayerAttack)
-        aiGrid.appendChild(aiCell)
+      const playerCell = document.createElement("td");
+      playerCell.classList.add("cell");
+      playerRow.appendChild(playerCell);
+  
+      const aiCell = document.createElement("td");
+      aiCell.classList.add("cell");
+      aiCell.addEventListener("click", handlePlayerAttack);
+      aiRow.appendChild(aiCell);
     }
-}
+  }
 
 // Placing AI ships and initializing Player Ship placement
 
@@ -24,7 +30,7 @@ startButton.addEventListener("click", () => {
     playerGrid.querySelectorAll(".cell").forEach(cell => {
         cell.addEventListener("click", handlePlayerShipPlacement)
     })
-    handleAIShipPlacement()
+    handleAIShipPlacement(aiShips)
     startButton.disabled = true
 })
 
@@ -75,13 +81,13 @@ function handlePlayerShipPlacement(evt) {
   }
   
 
-function handleAIShipPlacement(ships) {
+function handleAIShipPlacement() {
     if(!aiGrid){
         return
     }
 
     // sort ship lengths in descending order
-    const sortedShipLengths = [...ships].sort((a, b) => b - a)
+    const sortedShipLengths = aiShips.sort((a, b) => b - a)
   
     // place ships on AI grid
     for (const shipLength of sortedShipLengths) {
@@ -115,10 +121,12 @@ function handleAIShipPlacement(ships) {
             nextCell.classList.add("ship")
           }
           placed = true
+          console.log("ship placed")
         } else {
           // Cannot place the ship, try again with next ship
           placed = false
-          ships.push(shipLength)
+          aiShips.push(shipLength)
+          console.log("ship placement failed")
         }
   
         // Break out of the loop if we've reached 1000 attempts
@@ -130,24 +138,23 @@ function handleAIShipPlacement(ships) {
     }
   }
   
-  
   function getNextCell(startCell, i, orientation) {
-    if (!startCell) return null
     if (orientation === "horizontal") {
-      // Find the next cell in the same row
-      return startCell.nextElementSibling
-    } else if (orientation === "vertical") {
-      // Find the next cell in the same column
-      if (startCell.parentElement && startCell.parentElement.nextElementSibling) {
-        return startCell.parentElement.nextElementSibling.children[startCell.cellIndex]
-      } else {
-        return null
-      }
+        // Find the next cell in the same row
+        const nextCell = startCell.nextElementSibling
+        if (nextCell && nextCell.tagName === "TD") {
+            return nextCell
+        }
+    } else {
+        // Find the next cell in the same column
+        const parentRow = startCell.parentElement
+        const nextRow = parentRow.nextElementSibling
+        if (nextRow) {
+            return nextRow.children[i]
+        }
     }
-  }
-  
-
-  
+    return null
+}
 
   function handlePlayerAttack(evt) {
     const cell = evt.target
