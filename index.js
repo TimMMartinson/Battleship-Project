@@ -6,21 +6,25 @@ const startButton = document.getElementById("startButton")
 // creating grids
 
 for (let i = 0; i < 10; i++) {
-    const playerRow = document.createElement("tr");
-    playerGrid.appendChild(playerRow);
+    const playerRow = document.createElement("tr")
+    playerRow.setAttribute('id', `row${i}`)
+    playerGrid.appendChild(playerRow)
   
-    const aiRow = document.createElement("tr");
-    aiGrid.appendChild(aiRow);
+    const aiRow = document.createElement("tr")
+    aiRow.setAttribute('id', `row${i}`)
+    aiGrid.appendChild(aiRow)
   
     for (let j = 0; j < 10; j++) {
-      const playerCell = document.createElement("td");
-      playerCell.classList.add("cell");
-      playerRow.appendChild(playerCell);
+      const playerCell = document.createElement("td")
+      playerCell.classList.add("cell")
+      playerCell.setAttribute("id", `col${j}`)
+      playerRow.appendChild(playerCell)
   
       const aiCell = document.createElement("td");
-      aiCell.classList.add("cell");
-      aiCell.addEventListener("click", handlePlayerAttack);
-      aiRow.appendChild(aiCell);
+      aiCell.classList.add("cell")
+      aiCell.setAttribute('id', `col${j}`)
+      aiCell.addEventListener("click", handlePlayerAttack)
+      aiRow.appendChild(aiCell)
     }
   }
 
@@ -138,26 +142,23 @@ function handleAIShipPlacement() {
   }
   
   function getNextCell(cell, i, orientation) {
-    const row = cell.parentElement.rowIndex
-    const col = cell.cellIndex
-  
     if (orientation === "horizontal") {
-      // Check if the ship goes off the grid
-      if (col + i >= 10) {
-        return null
-      }
-      // Return the next horizontal cell
-      return cell.parentElement.children[col + i]
+        // Check if the ship goes off the grid
+        if (cell.cellIndex + i >= 10) {
+            return null
+        }
+        // Return the next horizontal cell
+        return document.querySelector(`#${cell.parentNode.id} #col${cell.cellIndex + i}`)
     } else {
-      // Check if the ship goes off the grid
-      if (row + i >= 10) {
-        return null
-      }
-      // Return the next vertical cell
-      return cell.parentElement.parentElement.children[row + i].children[col]
+        // Check if the ship goes off the grid
+        if (cell.parentNode.rowIndex + i >= 10) {
+            return null
+        }
+        // Return the next vertical cell
+        return document.querySelector(`#${cell.parentNode.id} #col${cell.cellIndex}`)
     }
-  }
-  
+}
+
 
   function handlePlayerAttack(evt) {
     const cell = evt.target
