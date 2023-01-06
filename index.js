@@ -52,22 +52,24 @@ function placeShip(row, col) {
     if (isHorizontal) {
         // check for space to place ship horizontally
         if (col + shipLength > 10) {
-            alert("Not enough space to place ship horizontally!")
+            document.getElementById("resultsContainer").innerHTML = "Not enough space to place ship horizontally!"
             return
         }
         // Place the ship
         for (let i = col; i < col + shipLength; i++) {
             document.getElementById(`playerRow${row}`).children[i].classList.add("ship")
+            document.getElementById("resultsContainer").innerHTML = ""
         }
     } else {
         // check for space to place ship vertically
         if (row + shipLength > 10) {
-            alert("Not enough space to place ship vertically!")
+            document.getElementById("resultsContainer").innerHTML ="Not enough space to place ship vertically!"
             return
         }
         // Place the ship
         for (let i = row; i < row + shipLength; i++) {
             document.getElementById(`playerRow${i}`).children[col].classList.add("ship")
+            document.getElementById("resultsContainer").innerHTML = ""
         }
     }
     currentShip++
@@ -115,13 +117,10 @@ function placeShip(row, col) {
             nextCell.classList.add("ship")
           }
   
-          console.log("ship placed")
           break // break out of the for loop if the ship is placed
         } else {
           // Cannot place the ship, try again with next ship
-  
           sortedShipLengths.push(shipLength)
-          console.log("ship placement failed")
         }
       }
     }
