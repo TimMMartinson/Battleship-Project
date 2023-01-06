@@ -38,7 +38,6 @@ Instructions:
     - As the game progresses, the ai can take longer to find a legal attack
 - Once the game is over you can click the Start Game button to start a new game.
 # Next Steps
-Version 2:
 ## Version 2
 - As a user, I want a container that shows the hits on each ship
 - As a user, I want an end of game screen that shows where both players placed all of their boats
