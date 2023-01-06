@@ -33,6 +33,7 @@ for (let i = 0; i < 10; i++) {
 // Placing AI ships and initializing Player Ship placement
 
 startButton.addEventListener("click", () => {
+    resetGame()
     handleAIShipPlacement(aiShips)
     startButton.disabled = true
 })
@@ -223,3 +224,26 @@ function getNextPlayerCell(cell, i, orientation) {
         targetCell.classList.add("miss")
     }
   }
+
+  function resetGame() {
+    // Reset all variables to their initial state
+    currentShip = 0
+    playerHits = 0
+    aiHits = 0
+    
+    // Remove all "ship" and "hit" classes from player and AI cells
+    const playerCells = playerGrid.querySelectorAll(".cell")
+    playerCells.forEach(cell => cell.classList.remove("ship", "hit"))
+    const aiCells = aiGrid.querySelectorAll(".cell")
+    aiCells.forEach(cell => cell.classList.remove("ship", "hit"))
+    
+    // Enable the start button
+    startButton.disabled = false
+    
+    // Clear the results container
+    resultsContainer.innerHTML = ""
+    
+    // Add the "placeShip" event listener back to the player grid
+    playerGrid.addEventListener("click", placeShip)
+  }
+  
