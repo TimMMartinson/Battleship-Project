@@ -1,8 +1,12 @@
-* {
-    background-color: slategray;
-}
+body {
+    background: linear-gradient(to right, #2b2b2b, #d3d3d3);
+    width: 75%;
+    margin: 0 auto;
+  }
+  
 
 h1 {
+    font-family: "Georgia", serif;
     color: rgb(201, 204, 207);
 }
 
@@ -10,6 +14,9 @@ h1 {
     border: 1px solid black;
     padding: 5px;
     align-content: center;
+    border-radius: 8px;
+    box-sizing: border-box;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 #playerGrid .cell, #aiGrid .cell {
@@ -17,6 +24,8 @@ h1 {
     width: 30px;
     height: 30px;
     cursor: pointer;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 #playerGrid .ship, #aiGrid .ship {
@@ -50,3 +59,50 @@ h1 {
     font-size: 20px;
     color: white;
 }
+
+#formLabel {
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    color: white;
+}
+
+#startButton {
+    background-color: #4caf50;
+    color: white;
+    font-family: "Montserrat", serif;
+    border: 2px solid #4caf50;
+    border-radius: 8px;
+}
+
+form {
+    display: flex;
+    align-items: center;
+    padding: auto;
+  }
+  
+  input[type="radio"] {
+    display: none;
+  }
+  
+  input[type="radio"] + label {
+    color: white;
+    font-family: "Montserrat", serif;
+    font-size: 16px;
+    cursor: pointer;
+    margin: 0 20px;
+  }
+  
+  input[type="radio"] + label:before {
+    content: "";
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 2px solid white;
+    border-radius: 50%;
+    margin-right: 10px;
+    vertical-align: middle;
+  }
+  
+  input[type="radio"]:checked + label:before {
+    background-color: white;
+  }
+  
