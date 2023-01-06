@@ -166,6 +166,10 @@ function getNextPlayerCell(cell, i, orientation) {
   
 
   function handlePlayerAttack(evt) {
+    // make sure game is still ongoing, else disable attack function
+    if (startButton.disabled === false) {
+        return
+    }
     const cell = evt.target
     // make sure function can only target cells in player's grid
     if (!cell.classList.contains("cell")){
@@ -197,6 +201,10 @@ function getNextPlayerCell(cell, i, orientation) {
 }
 
   function handleAIAttack () {
+    // make sure game is still ongoing, else disable player attack function
+    if (startButton.disabled === false) {
+        return
+    }
    // Generate random coordinates for the target cell
    const row = Math.floor(Math.random() * 10)
    const col = Math.floor(Math.random() * 10)
