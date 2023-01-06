@@ -58,7 +58,7 @@ function placeShip(row, col) {
         // Place the ship
         for (let i = col; i < col + shipLength; i++) {
             document.getElementById(`playerRow${row}`).children[i].classList.add("ship")
-            document.getElementById("resultsContainer").innerHTML = ""
+            document.getElementById("resultsContainer").innerHTML = "" // This is to remove any incorrect placement messages
         }
     } else {
         // check for space to place ship vertically
@@ -69,7 +69,7 @@ function placeShip(row, col) {
         // Place the ship
         for (let i = row; i < row + shipLength; i++) {
             document.getElementById(`playerRow${i}`).children[col].classList.add("ship")
-            document.getElementById("resultsContainer").innerHTML = ""
+            document.getElementById("resultsContainer").innerHTML = "" // This is to remove any incorrect placement messages
         }
     }
     currentShip++

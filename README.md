@@ -37,3 +37,19 @@ Instructions:
 - The AI attacks after you
     - As the game progresses, the ai can take longer to find a legal attack
 - Once the game is over you can click the Start Game button to start a new game.
+# Next Steps
+Version 2:
+## Version 2
+- As a user, I want a container that shows the hits on each ship
+- As a user, I want an end of game screen that shows where both players placed all of their boats
+- As a user, I want to keep track of my wins and losses
+- As a user, I want my cursor to look like a missile when I am hovering to attack.
+- As a user, I want labeled coordinates
+
+## Version 3
+- As a user, I want to be able to drag and drop my ships to place them.
+- As a user, I want customizable ship appearances.
+- As a user, I want access to different board backgrounds
+- As a user, I want sound effects.
+- As a user, I want different types of boats
+- As a user, I want better, non-random AI.
