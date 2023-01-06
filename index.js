@@ -233,17 +233,14 @@ function getNextPlayerCell(cell, i, orientation) {
     
     // Remove all "ship" and "hit" classes from player and AI cells
     const playerCells = playerGrid.querySelectorAll(".cell")
-    playerCells.forEach(cell => cell.classList.remove("ship", "hit"))
+    playerCells.forEach(cell => cell.classList.remove("ship", "hit", "miss"))
     const aiCells = aiGrid.querySelectorAll(".cell")
-    aiCells.forEach(cell => cell.classList.remove("ship", "hit"))
+    aiCells.forEach(cell => cell.classList.remove("ship", "hit", "miss"))
     
     // Enable the start button
     startButton.disabled = false
     
     // Clear the results container
     resultsContainer.innerHTML = ""
-    
-    // Add the "placeShip" event listener back to the player grid
-    playerGrid.addEventListener("click", placeShip)
   }
   
