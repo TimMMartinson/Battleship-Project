@@ -2,6 +2,7 @@
 const playerGrid = document.getElementById("playerGrid")
 const aiGrid = document.getElementById("aiGrid")
 const startButton = document.getElementById("startButton")
+const resultsContainer = document.getElementById("resultsContainer")
 
 // creating grids
 
@@ -178,14 +179,16 @@ function getNextPlayerCell(cell, i, orientation) {
     if(cell.classList.contains("ship")) {
         cell.classList.add("hit")
         playerHits++
+        document.getElementById("resultsContainer").innerHTML = "Hit!"
 
         //check for win
         if (playerHits === 17) {
-            alert("Congratulations, the player wins!")
+            document.getElementById("resultsContainer").innerHTML = "Congratulations! You win!"
             startButton.disabled = false
         }
     } else {
         cell.classList.add("miss")
+        document.getElementById("resultsContainer").innerHTML = "Miss!"
     }
     // invoke ai attack 1 second after player attack completes
     setTimeout(() => handleAIAttack(), 1000)

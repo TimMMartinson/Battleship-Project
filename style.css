@@ -45,3 +45,8 @@ h1 {
     text-align: center;
     font-family: monospace;
 }
+
+#resultsContainer {
+    font-size: 20px;
+    color: white;
+}
