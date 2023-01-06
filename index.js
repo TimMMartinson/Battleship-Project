@@ -185,6 +185,7 @@ function getNextPlayerCell(cell, i, orientation) {
         if (playerHits === 17) {
             document.getElementById("resultsContainer").innerHTML = "Congratulations! You win!"
             startButton.disabled = false
+            return
         }
     } else {
         cell.classList.add("miss")
@@ -215,7 +216,7 @@ function getNextPlayerCell(cell, i, orientation) {
 
         //check for win
         if (aiHits === 17) {
-            alert("Sorry, the AI wins!")
+            document.getElementById("resultsContainer").innerHTML = "Sorry! The AI Wins!"
             startButton.disabled = false
         }
     } else {
