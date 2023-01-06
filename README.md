@@ -25,6 +25,7 @@ The following technology was used to create this battleship game:
 
 # Getting Started
 Game can be played at this [link](https://timmmartinson.github.io/Battleship-Project/)
+
 Instructions:
 - Click on start game, this will place the ai's ships.
 - Select whether you would like to place your ship horizontally or vertically.
