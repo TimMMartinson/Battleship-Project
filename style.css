@@ -40,21 +40,6 @@ h1 {
     background-color: red;
 }
 
-.label {
-    width: 30px;
-    height: 30px;
-    text-align: center;
-    padding: 0;
-    font-family: monospace;
-}
-
-.colLabel {
-    width: 30px;
-    height: 30px;
-    text-align: center;
-    font-family: monospace;
-}
-
 #resultsContainer {
     font-size: 20px;
     color: white;
