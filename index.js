@@ -7,28 +7,31 @@ const resultsContainer = document.getElementById("resultsContainer")
 // creating grids
 
 for (let i = 0; i < 10; i++) {
-    const playerRow = document.createElement("tr")
-    playerRow.setAttribute('id', `playerRow${i}`)
-    playerGrid.appendChild(playerRow)
-  
-    const aiRow = document.createElement("tr")
-    aiRow.setAttribute('id', `row${i}`)
-    aiGrid.appendChild(aiRow)
-  
-    for (let j = 0; j < 10; j++) {
-      const playerCell = document.createElement("td")
-      playerCell.classList.add("cell")
-      playerCell.setAttribute("id", `playerCol${j}`)
-      playerCell.addEventListener("click", () => placeShip(i,j))
-      playerRow.appendChild(playerCell)
-  
-      const aiCell = document.createElement("td")
-      aiCell.classList.add("cell")
-      aiCell.setAttribute('id', `col${j}`)
-      aiCell.addEventListener("click", handlePlayerAttack)
-      aiRow.appendChild(aiCell)
-    }
-  }
+	const playerRow = document.createElement('tr')
+	// change over to double quotes with "id" since the rest of the file is using double quotes
+	playerRow.setAttribute('id', `playerRow${i}`)
+	playerGrid.appendChild(playerRow)
+
+	const aiRow = document.createElement('tr')
+	// change over to double quotes with "id" since the rest of the file is using double quotes
+	aiRow.setAttribute('id', `row${i}`)
+	aiGrid.appendChild(aiRow)
+
+	for (let j = 0; j < 10; j++) {
+    // change over to double quotes for this entire scope where you can
+		const playerCell = document.createElement('td')
+		playerCell.classList.add('cell')
+		playerCell.setAttribute('id', `playerCol${j}`)
+		playerCell.addEventListener('click', () => placeShip(i, j))
+		playerRow.appendChild(playerCell)
+
+		const aiCell = document.createElement('td')
+		aiCell.classList.add('cell')
+		aiCell.setAttribute('id', `col${j}`)
+		aiCell.addEventListener('click', handlePlayerAttack)
+		aiRow.appendChild(aiCell)
+	}
+}
 
 // Placing AI ships and initializing Player Ship placement
 
@@ -40,13 +43,14 @@ startButton.addEventListener("click", () => {
 
 const playerShips = [5, 4, 3, 3, 2]
 const aiShips = [5, 4, 3, 3, 2]
+// Magic Numbers need to be in all caps and in snake case
 let playerHits = 0
 let aiHits = 0
-
 let currentShip = 0
+
 function placeShip(row, col) {
     const shipLength = playerShips[currentShip]
-
+// wonderful use of comments to  make this flow nice and readable
     // place horizontally or vertically depending on user choice
     const isHorizontal = document.getElementById("horizontalRadio").checked
     if (isHorizontal) {
@@ -81,6 +85,8 @@ function placeShip(row, col) {
 
 
   function handleAIShipPlacement() {
+    // can take this one line if you would like
+    // if (!aiGrid) return
     if (!aiGrid) {
       return
     }
@@ -99,6 +105,7 @@ function placeShip(row, col) {
         // Pick a random orientation for the ship (horizontal or vertical)
         const orientation = Math.random() < 0.5 ? "horizontal" : "vertical"
   
+        // love to see an a very well named boolean var with the `is` at the front letting use know that this is or isn't something
         let isValidPlacement = true
         for (let i = 0; i < shipLength; i++) {
           const nextCell = getNextCell(startCell, i, orientation)
