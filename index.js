@@ -102,7 +102,7 @@ function placeShip(row, col) {
         let isValidPlacement = true
         for (let i = 0; i < shipLength; i++) {
           const nextCell = getNextCell(startCell, i, orientation)
-          if (!nextCell || nextCell.classList.contains("ship") || nextCell === null) {
+          if (!nextCell || nextCell.classList.contains("aiShip")) {
             isValidPlacement = false
             break
           }
@@ -110,11 +110,11 @@ function placeShip(row, col) {
   
         if (isValidPlacement) {
           // Place the ship
-          startCell.classList.add("ship")
+          startCell.classList.add("aiShip")
           startCell.dataset.length = shipLength
           for (let i = 1; i < shipLength; i++) {
             const nextCell = getNextCell(startCell, i, orientation)
-            nextCell.classList.add("ship")
+            nextCell.classList.add("aiShip")
           }
   
           break // break out of the for loop if the ship is placed
@@ -180,7 +180,7 @@ function getNextPlayerCell(cell, i, orientation) {
     }
 
     //check if cell contains a ship
-    if(cell.classList.contains("ship")) {
+    if(cell.classList.contains("aiShip")) {
         cell.classList.add("hit")
         playerHits++
         document.getElementById("resultsContainer").innerHTML = "Hit!"
