@@ -1,25 +1,56 @@
 body {
-    background: linear-gradient(to right, #2b2b2b, #d3d3d3);
+    background: linear-gradient(to right, #2b2b2b, #b9b9b9);
     width: 75%;
     margin: 0 auto;
   }
   
 
-h1 {
+h1, h3{
     font-family: "Georgia", serif;
     color: rgb(201, 204, 207);
+    text-align: center;
+}
+
+h1 {
+  color: rgb(222, 225, 230)
+}
+
+h2, p {
+  font-family: "Georgia", serif;
+  color: rgb(201, 204, 207);
+  float: left;
+}
+
+form, #playerGrid, #aiGrid, #startButton {
+  margin: auto;
+  display: block;
+}
+
+#gridsContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
+#instructions, #aiSide, #playerSide {
+  display: flex;
+  flex-direction: column;
+}
+
+#instructions h2{
+  text-align: center;
 }
 
 #playerGrid, #aiGrid {
-    border: 1px solid black;
     padding: 5px;
     align-content: center;
-    border-radius: 8px;
-    box-sizing: border-box;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 #playerGrid .cell, #aiGrid .cell {
+    padding: 2.5px;
+    text-align: center;
+    vertical-align: middle;
+    color: white;
     border: 1px solid black;
     width: 30px;
     height: 30px;
@@ -28,7 +59,7 @@ h1 {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
-#playerGrid .ship, #aiGrid .ship {
+#playerGrid .ship {
     background-color: blue;
 }
 
@@ -48,6 +79,7 @@ h1 {
 #formLabel {
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     color: white;
+    text-align: center;
 }
 
 #startButton {
@@ -56,14 +88,19 @@ h1 {
     font-family: "Montserrat", serif;
     border: 2px solid #4caf50;
     border-radius: 8px;
-    margin: 5px 0px 5px 0px;
+    padding: 10px;
+  }
+
+#startButton:hover {
+  cursor: pointer;
+  background-color: #143015;
 }
 
 form {
     display: flex;
     align-items: center;
     padding: auto;
-    margin-top: 5px;
+    margin-top: 10px;
   }
   
   input[type="radio"] {

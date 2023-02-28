@@ -5,30 +5,57 @@ const startButton = document.getElementById("startButton")
 const resultsContainer = document.getElementById("resultsContainer")
 
 // creating grids
+const letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J']
 
 for (let i = 0; i < 10; i++) {
-    const playerRow = document.createElement("tr")
-    playerRow.setAttribute('id', `playerRow${i}`)
-    playerGrid.appendChild(playerRow)
-  
-    const aiRow = document.createElement("tr")
-    aiRow.setAttribute('id', `row${i}`)
-    aiGrid.appendChild(aiRow)
-  
-    for (let j = 0; j < 10; j++) {
-      const playerCell = document.createElement("td")
-      playerCell.classList.add("cell")
-      playerCell.setAttribute("id", `playerCol${j}`)
-      playerCell.addEventListener("click", () => placeShip(i,j))
-      playerRow.appendChild(playerCell)
-  
-      const aiCell = document.createElement("td")
-      aiCell.classList.add("cell")
-      aiCell.setAttribute('id', `col${j}`)
-      aiCell.addEventListener("click", handlePlayerAttack)
-      aiRow.appendChild(aiCell)
-    }
+  const playerRow = document.createElement("tr")
+  playerRow.setAttribute('id', `playerRow${i}`)
+  playerGrid.appendChild(playerRow)
+
+  const aiRow = document.createElement("tr")
+  aiRow.setAttribute('id', `row${i}`)
+  aiGrid.appendChild(aiRow)
+
+  for (let j = 0; j < 10; j++) {
+    const playerCell = document.createElement("td")
+    playerCell.classList.add("cell")
+    playerCell.setAttribute("id", `playerCol${j}`)
+    playerCell.innerHTML = letters[j] + (i+1)
+    playerCell.addEventListener("click", () => placeShip(i,j))
+    playerRow.appendChild(playerCell)
+
+    const aiCell = document.createElement("td")
+    aiCell.classList.add("cell")
+    aiCell.setAttribute('id', `col${j}`)
+    aiCell.innerHTML = letters[j] + (i+1)
+    aiCell.addEventListener("click", handlePlayerAttack)
+    aiRow.appendChild(aiCell)
   }
+}
+
+// for (let i = 0; i < 10; i++) {
+//     const playerRow = document.createElement("tr")
+//     playerRow.setAttribute('id', `playerRow${i}`)
+//     playerGrid.appendChild(playerRow)
+  
+//     const aiRow = document.createElement("tr")
+//     aiRow.setAttribute('id', `row${i}`)
+//     aiGrid.appendChild(aiRow)
+  
+//     for (let j = 0; j < 10; j++) {
+//       const playerCell = document.createElement("td")
+//       playerCell.classList.add("cell")
+//       playerCell.setAttribute("id", `playerCol${j}`)
+//       playerCell.addEventListener("click", () => placeShip(i,j))
+//       playerRow.appendChild(playerCell)
+  
+//       const aiCell = document.createElement("td")
+//       aiCell.classList.add("cell")
+//       aiCell.setAttribute('id', `col${j}`)
+//       aiCell.addEventListener("click", handlePlayerAttack)
+//       aiRow.appendChild(aiCell)
+//     }
+//   }
 
 // Placing AI ships and initializing Player Ship placement
 
