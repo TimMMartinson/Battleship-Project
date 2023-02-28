@@ -1,7 +1,7 @@
 # Battleship
 - Battleship is a two-player strategy/guessing game where the object is to sink all of your opponents ships.
 - Ships are placed on a 10x10 grid and players take turns "attacking" each other by guessing a coordinate.
-> For demonstration purposes some of these screenshots are from an earlier version of the game, after demonstrating the game I will adjusted the code so that the AI's ships are invisible
+> For demonstration purposes some of these screenshots are from an earlier version of the game, after demonstrating the game I adjusted the code so that the AI's ships are invisible
 
 ## Initial Game State
 ![intialstate](screenshots/battleship.png)
