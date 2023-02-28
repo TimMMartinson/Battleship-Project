@@ -269,7 +269,7 @@ function getNextPlayerCell(cell, i, orientation) {
     const playerCells = playerGrid.querySelectorAll(".cell")
     playerCells.forEach(cell => cell.classList.remove("ship", "hit", "miss"))
     const aiCells = aiGrid.querySelectorAll(".cell")
-    aiCells.forEach(cell => cell.classList.remove("ship", "hit", "miss"))
+    aiCells.forEach(cell => cell.classList.remove("aiShip", "hit", "miss"))
     
     // Enable the start button
     startButton.disabled = false
