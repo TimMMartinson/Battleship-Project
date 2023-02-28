@@ -34,7 +34,7 @@ form, #playerGrid, #aiGrid, #startButton {
 
 @media (max-width: 768px) {
   #gridsContainer {
-    flex-direction: column;
+    flex-direction: column-reverse;
     align-items: center;
   }
 }
