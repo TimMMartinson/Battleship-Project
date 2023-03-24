@@ -121,94 +121,145 @@ function placeShip(row, col) {
 }
 
 
+function handleAIShipPlacement() {
+  if (!aiGrid) {
+    return;
+  }
 
-  function handleAIShipPlacement() {
-    if (!aiGrid) {
-      return
-    }
-  
-    // sort ship lengths in descending order
-    const sortedShipLengths = [...aiShips].sort((a, b) => b - a)
-  
-    // place ships on AI grid
-    for (const shipLength of aiShips) {
-      for (let attempts = 0; attempts < 1000; attempts++) {
-        // Pick a random cell to start the ship
-        const startRow = Math.floor(Math.random() * 10)
-        const startCol = Math.floor(Math.random() * 10)
-        const startCell = aiGrid.querySelector(`#row${startRow} #col${startCol}`)
-  
-        // Pick a random orientation for the ship (horizontal or vertical)
-        const orientation = Math.random() < 0.5 ? "horizontal" : "vertical"
-  
-        let isValidPlacement = true
-        for (let i = 0; i < shipLength; i++) {
-          const nextCell = getNextCell(startCell, i, orientation)
-          if (!nextCell || nextCell.classList.contains("aiShip")) {
-            isValidPlacement = false
-            break
-          }
-        }
-  
-        if (isValidPlacement) {
-          // Place the ship
-          startCell.classList.add("aiShip")
-          startCell.dataset.length = shipLength
-          for (let i = 1; i < shipLength; i++) {
-            const nextCell = getNextCell(startCell, i, orientation)
-            nextCell.classList.add("aiShip")
-          }
-  
-          break // break out of the for loop if the ship is placed
-        } else {
-          // Cannot place the ship, try again with next ship
-          sortedShipLengths.push(shipLength)
-        }
-      }
+  const shipLengths = [...aiShips];
+
+  for (const shipLength of shipLengths) {
+    let isValidPlacement = false;
+
+    while (!isValidPlacement) {
+      const startRow = Math.floor(Math.random() * 10);
+      const startCol = Math.floor(Math.random() * 10);
+      const orientation = Math.random() < 0.5 ? "horizontal" : "vertical";
+
+      isValidPlacement = tryPlaceShip(startRow, startCol, shipLength, orientation);
     }
   }
-  
-  
-  function getNextCell(cell, i, orientation) {
-    if (orientation === "horizontal") {
-        // Check if the ship goes off the grid
-        if (cell.cellIndex + i >= 10) {
-            return null
-        }
-        // Return the next horizontal cell
-        return document.querySelector(`#${cell.parentNode.id} #col${cell.cellIndex + i}`)
-    } else {
-        // Check if the ship goes off the grid
-        if (cell.parentNode.rowIndex + i >= 10) {
-            return null
-        }
-        // Return the next vertical cell
-        return document.querySelector(`#row${cell.parentNode.rowIndex + i} #col${cell.cellIndex}`)
-    }
 }
 
-function getNextPlayerCell(cell, i, orientation) {
-    // Check if the ship goes off the grid
-    if (orientation === "horizontal") {
-        if (cell.cellIndex + i >= 10) {
-            return null
-        }
-        // Return the next horizontal cell
-        return document.querySelector(`#${cell.parentNode.id} #playerCol${cell.cellIndex + i}`)
-    } else {
-        if (cell.parentNode.rowIndex + i >= 10) {
-            return null
-        }
-        // Return the next vertical cell
-        return document.querySelector(`#playerRow${cell.parentNode.rowIndex + i} #playerCol${cell.cellIndex}`)
+function tryPlaceShip(startRow, startCol, shipLength, orientation) {
+  const cellsToPlace = [];
+
+  for (let i = 0; i < shipLength; i++) {
+    const nextRow = orientation === "horizontal" ? startRow : startRow + i;
+    const nextCol = orientation === "vertical" ? startCol : startCol + i;
+
+    if (nextRow >= 10 || nextCol >= 10) {
+      return false;
     }
+
+    const nextCell = aiGrid.querySelector(`#row${nextRow} #col${nextCol}`);
+
+    if (nextCell.classList.contains("aiShip")) {
+      return false;
+    }
+
+    cellsToPlace.push(nextCell);
+  }
+
+  cellsToPlace.forEach(cell => {
+    cell.classList.add("aiShip");
+    cell.dataset.length = shipLength;
+  });
+
+  return true;
 }
+
+// This is an older version of the aiShipPlacement that for some reason refused to place ships vertically
+
+//   function handleAIShipPlacement() {
+//     if (!aiGrid) {
+//       return
+//     }
+  
+//     // sort ship lengths in descending order
+//     const sortedShipLengths = [...aiShips].sort((a, b) => b - a)
+  
+//     // place ships on AI grid
+//     for (const shipLength of aiShips) {
+//       for (let attempts = 0; attempts < 1000; attempts++) {
+//         // Pick a random cell to start the ship
+//         const startRow = Math.floor(Math.random() * 10)
+//         const startCol = Math.floor(Math.random() * 10)
+//         const startCell = aiGrid.querySelector(`#row${startRow} #col${startCol}`)
+  
+//         // Pick a random orientation for the ship (horizontal or vertical)
+//         const orientation = Math.random() < 0.5 ? "horizontal" : "vertical"
+  
+//         let isValidPlacement = true
+//         for (let i = 0; i < shipLength; i++) {
+//           const nextCell = getNextCell(startCell, i, orientation)
+//           if (!nextCell || nextCell.classList.contains("aiShip")) {
+//             isValidPlacement = false
+//             break
+//           }
+//         }
+  
+//         if (isValidPlacement) {
+//           // Place the ship
+//           startCell.classList.add("aiShip")
+//           startCell.dataset.length = shipLength
+//           for (let i = 1; i < shipLength; i++) {
+//             const nextCell = getNextCell(startCell, i, orientation)
+//             nextCell.classList.add("aiShip")
+//           }
+  
+//           break // break out of the for loop if the ship is placed
+//         } else {
+//           // Cannot place the ship, try again with next ship
+//           sortedShipLengths.push(shipLength)
+//         }
+//       }
+//     }
+//   }
+  
+  
+//   function getNextCell(startCell, i, orientation) {
+//     if (orientation === "horizontal") {
+//         // Check if the ship goes off the grid
+//         if (startCell.cellIndex + i >= 10) {
+//             return null
+//         }
+//         // Return the next horizontal cell
+//         return document.querySelector(`#${startCell.parentNode.id} #col${startCell.cellIndex + i}`)
+//     } else {
+//         // Check if the ship goes off the grid
+//         if (startCell.parentNode.rowIndex + i >= 10) {
+//             return null
+//         }
+//         // Return the next vertical cell
+//         return document.querySelector(`#row${startCell.parentNode.rowIndex + i} #col${startCell.cellIndex}`)
+//     }
+// }
+
+//This is a leftover function from an earlier version of player ship placement
+
+// function getNextPlayerCell(cell, i, orientation) {
+//     // Check if the ship goes off the grid
+//     if (orientation === "horizontal") {
+//         if (cell.cellIndex + i >= 10) {
+//             return null
+//         }
+//         // Return the next horizontal cell
+//         return document.querySelector(`#${cell.parentNode.id} #playerCol${cell.cellIndex + i}`)
+//     } else {
+//         if (cell.parentNode.rowIndex + i >= 10) {
+//             return null
+//         }
+//         // Return the next vertical cell
+//         return document.querySelector(`#playerRow${cell.parentNode.rowIndex + i} #playerCol${cell.cellIndex}`)
+//     }
+// }
 
   
 
   function handlePlayerAttack(evt) {
-    // make sure game is still ongoing, else disable attack function
-    if (startButton.disabled === false) {
+    // make sure game is still ongoing and all player ships are placed, else disable attack function
+    if (startButton.disabled === false || currentShip !== playerShips.length) {
         return
     }
     const cell = evt.target
