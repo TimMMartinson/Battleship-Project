@@ -72,39 +72,54 @@ let aiHits = 0
 
 let currentShip = 0
 function placeShip(row, col) {
-    const shipLength = playerShips[currentShip]
+  const shipLength = playerShips[currentShip]
 
-    // place horizontally or vertically depending on user choice
-    const isHorizontal = document.getElementById("horizontalRadio").checked
-    if (isHorizontal) {
-        // check for space to place ship horizontally
-        if (col + shipLength > 10) {
-            document.getElementById("resultsContainer").innerHTML = "Not enough space to place ship horizontally!"
-            return
-        }
-        // Place the ship
-        for (let i = col; i < col + shipLength; i++) {
-            document.getElementById(`playerRow${row}`).children[i].classList.add("ship")
-            document.getElementById("resultsContainer").innerHTML = "" // This is to remove any incorrect placement messages
-        }
-    } else {
-        // check for space to place ship vertically
-        if (row + shipLength > 10) {
-            document.getElementById("resultsContainer").innerHTML ="Not enough space to place ship vertically!"
-            return
-        }
-        // Place the ship
-        for (let i = row; i < row + shipLength; i++) {
-            document.getElementById(`playerRow${i}`).children[col].classList.add("ship")
-            document.getElementById("resultsContainer").innerHTML = "" // This is to remove any incorrect placement messages
-        }
-    }
-    currentShip++
-    // Once all ships are placed, disable the ship placement function
-    if (currentShip === playerShips.length) {
-        playerGrid.removeEventListener("click", placeShip)
-    }
+  // place horizontally or vertically depending on user choice
+  const isHorizontal = document.getElementById("horizontalRadio").checked
+  if (isHorizontal) {
+      // check for space to place ship horizontally
+      if (col + shipLength > 10) {
+          document.getElementById("resultsContainer").innerHTML = "Not enough space to place ship horizontally!"
+          return
+      }
+      // check for overlap with other ships
+      for (let i = col; i < col + shipLength; i++) {
+          if (document.getElementById(`playerRow${row}`).children[i].classList.contains("ship")) {
+              document.getElementById("resultsContainer").innerHTML = "Ships cannot overlap!"
+              return
+          }
+      }
+      // Place the ship
+      for (let i = col; i < col + shipLength; i++) {
+          document.getElementById(`playerRow${row}`).children[i].classList.add("ship")
+          document.getElementById("resultsContainer").innerHTML = "" // This is to remove any incorrect placement messages
+      }
+  } else {
+      // check for space to place ship vertically
+      if (row + shipLength > 10) {
+          document.getElementById("resultsContainer").innerHTML ="Not enough space to place ship vertically!"
+          return
+      }
+      // check for overlap with other ships
+      for (let i = row; i < row + shipLength; i++) {
+          if (document.getElementById(`playerRow${i}`).children[col].classList.contains("ship")) {
+              document.getElementById("resultsContainer").innerHTML = "Ships cannot overlap!"
+              return
+          }
+      }
+      // Place the ship
+      for (let i = row; i < row + shipLength; i++) {
+          document.getElementById(`playerRow${i}`).children[col].classList.add("ship")
+          document.getElementById("resultsContainer").innerHTML = "" // This is to remove any incorrect placement messages
+      }
+  }
+  currentShip++
+  // Once all ships are placed, disable the ship placement function
+  if (currentShip === playerShips.length) {
+      playerGrid.removeEventListener("click", placeShip)
+  }
 }
+
 
 
   function handleAIShipPlacement() {
